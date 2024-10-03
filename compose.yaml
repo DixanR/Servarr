@@ -7,7 +7,6 @@ services:
       - data:/data
       - deluge_configs:/var/lib/deluged
     ports:
-      - "6882:6882"
       - "8112:8112"
 
   radarr:
