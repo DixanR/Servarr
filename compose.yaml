@@ -38,6 +38,13 @@ services:
     ports:
       - 9696:9696
 
+  nginx:
+    build: 
+      context: .
+      dockerfile: dockerfiles/Dockerfile_nginx
+    ports:
+      - 80:80
+
 volumes:
   deluge_configs:
   radarr_configs:

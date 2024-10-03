@@ -1,0 +1,27 @@
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        server_name _;
+
+        location / {
+                proxy_pass http://deluged:8112;
+                include proxy_params;
+        }
+
+        location /radarr {
+                proxy_pass http://radarr:7878;
+                include proxy_params;
+        }
+
+        location /sonarr {
+                proxy_pass http://sonarr:8989;
+                include proxy_params;
+        }
+
+        location /prowlarr {
+                proxy_pass http://prowlarr:9696;
+                include proxy_params;
+        }
+}
+
