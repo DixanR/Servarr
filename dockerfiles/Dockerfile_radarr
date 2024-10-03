@@ -20,9 +20,8 @@ WORKDIR /opt/{$user}
 
 RUN wget --content-disposition 'http://radarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64' && \
     tar -xvzf Radarr*.linux*.tar.gz --strip-components=1 && \
-    rm -rf *.tar.gz
-
-RUN chown ${user}:${group} /opt/${user} -R && \ 
+    rm -rf *.tar.gz && \
+    chown ${user}:${group} /opt/${user} -R && \ 
     chmod 775 /opt/{$user} -R
 
 USER ${user}
