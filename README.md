@@ -11,13 +11,9 @@
 - Add download client (deluge) in radarr/sonarr, use compose service name for discovery
 - Add media folders to sonarr/radarr (/data/{series,movie})
 
-#### ServiceNames
+#### ServiceNames:Port
 
-deluged:
-    port: 8112
-radarr:
-    port: 7878
-sonarr:
-    port: 8989
-prowlarr:
-    port: 9696
+- deluged:8112
+- radarr:7878
+- sonarr:8989
+- prowlarr:9696
