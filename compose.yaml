@@ -1,0 +1,47 @@
+services:
+  deluged:
+    build: 
+      context: .
+      dockerfile: dockerfiles/Dockerfile_deluged
+    volumes:
+      - data:/data
+      - deluge_configs:/var/lib/deluged
+    ports:
+      - "6882:6882"
+      - "8112:8112"
+
+  radarr:
+    build: 
+      context: .
+      dockerfile: dockerfiles/Dockerfile_radarr
+    volumes:
+      - data:/data
+      - radarr_configs:/var/lib/radarr
+    ports:
+      - 7878:7878
+
+  sonarr:
+    build: 
+      context: .
+      dockerfile: dockerfiles/Dockerfile_sonarr
+    volumes:
+      - data:/data
+      - sonarr_configs:/var/lib/sonarr
+    ports:
+      - 8989:8989
+
+  prowlarr:
+    build: 
+      context: .
+      dockerfile: dockerfiles/Dockerfile_prowlarr
+    volumes:
+      - prowlarr_configs:/var/lib/prowlarr
+    ports:
+      - 9696:9696
+
+volumes:
+  deluge_configs:
+  radarr_configs:
+  prowlarr_configs:
+  sonarr_configs:
+  data:

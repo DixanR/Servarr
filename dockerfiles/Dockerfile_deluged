@@ -1,0 +1,11 @@
+FROM debian:bookworm-slim
+
+RUN apt-get update && apt-get install deluged deluge-web supervisor -y 
+
+COPY ./supervisord/deluged.conf /etc/supervisor/conf.d/
+
+RUN groupadd media -g 60000 && useradd deluged -m -u 5000 -g media -s /bin/bash && su -l deluged -c 'echo "umask 002" >> ~/.bashrc' && chown 775 /var/lib/deluged -R && chown deluged:media /var/lib/deluged -R 
+
+ENTRYPOINT ["supervisord"]
+
+CMD ["-n","-c","/etc/supervisor/supervisord.conf"]
