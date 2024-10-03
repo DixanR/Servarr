@@ -29,7 +29,7 @@ prowlarr | sonarr | media | 5003 | 60000
 #### Nginx Reverse-Proxy
 
 - Change the Url Base in "Settings->General" to /radarr /sonarr /prowlarr in the corresponding app and the following endpoints will work:
-   * http:/IPAddr/sonarr
+   * http://IPAddr/sonarr
    * http://IPAddr/radarr
    * http://IPAddr/prowlarr
 
