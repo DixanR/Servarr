@@ -1,3 +1,11 @@
+FROM debian:bookworm-slim AS BUILD_IMAGE
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install wget -y
+
+RUN wget -q --content-disposition 'https://services.sonarr.tv/v1/download/main/latest?version=4&os=linux&arch=x64' && tar -xzf Sonarr*.linux*.tar.gz --strip-components=1
+
 FROM debian:bookworm-slim
 
 ARG user=sonarr
@@ -6,23 +14,18 @@ ARG uid=5002
 ARG gid=60000 
 ARG shell=/bin/bash
 
-RUN apt-get update && apt-get install curl sqlite3 wget libicu72 -y
+RUN apt-get update && apt-get install curl sqlite3 libicu72 -y
 
 RUN groupadd ${group} -g ${gid} && \ 
     useradd ${user} -m -u ${uid} -g ${group} -s ${shell} && \
     su -l ${user} -c 'echo "umask 002" >> ~/.bashrc' && \
-    mkdir /var/lib/${user} && \
-    chown 775 /var/lib/${user} -R && \ 
-    chown ${user}:${group} /var/lib/${user} -R && \
     mkdir /opt/${user}
+
+USER ${user}
 
 WORKDIR /opt/${user}
 
-RUN wget --content-disposition 'https://services.sonarr.tv/v1/download/main/latest?version=4&os=linux&arch=x64' && tar -xvzf Sonarr*.linux*.tar.gz --strip-components=1
-
-RUN chown ${user}:${group} /opt/${user} -R && chmod 775 /opt/${user} -R
-
-USER ${user}
+COPY --from=BUILD_IMAGE /app ./
 
 ENTRYPOINT ["./Sonarr"]
 

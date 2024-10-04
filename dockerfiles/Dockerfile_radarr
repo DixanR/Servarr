@@ -1,3 +1,11 @@
+FROM debian:bookworm-slim as BUILD_IMAGE
+
+RUN apt-get update && apt-get install wget -y
+
+WORKDIR /app
+
+RUN wget -q --content-disposition 'http://radarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64' && tar -xzf Radarr*.linux*.tar.gz --strip-components=1
+
 FROM debian:bookworm-slim
 
 ARG user=radarr
@@ -6,25 +14,18 @@ ARG uid=5001
 ARG gid=60000
 ARG shell=/bin/bash
 
-RUN apt-get update && apt-get install curl sqlite3 wget libicu72 -y
+RUN apt-get update && apt-get install curl sqlite3 libicu72 -y
 
 RUN groupadd ${group} -g ${gid} && \
     useradd ${user} -m -u ${uid} -g ${group} -s ${shell} && \
     su -l ${user} -c 'echo "umask 002" >> ~/.bashrc' && \
-    mkdir /var/lib/${user} && \
-    chown 775 /var/lib/${user} -R && \
-    chown ${user}:${group} /var/lib/${user} -R && \
     mkdir /opt/${user}
 
-WORKDIR /opt/{$user}
-
-RUN wget --content-disposition 'http://radarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64' && \
-    tar -xvzf Radarr*.linux*.tar.gz --strip-components=1 && \
-    rm -rf *.tar.gz && \
-    chown ${user}:${group} /opt/${user} -R && \ 
-    chmod 775 /opt/{$user} -R
-
 USER ${user}
+
+WORKDIR /opt/${user}
+
+COPY --from=BUILD_IMAGE /app ./
 
 ENTRYPOINT ["./Radarr"]
 
