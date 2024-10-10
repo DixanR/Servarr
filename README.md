@@ -1,8 +1,8 @@
-### *Arrs Apps sonarr+radarr+prowlarr+deluge
+### Arrs Apps overseerr+sonarr+radarr+prowlarr+deluge
 
 #### EDIT
 
-- *Set data volume as nfs or bind mount in compose.yml
+- Set data volume as nfs or bind mount in compose.yml
 
 #### Users
 
@@ -29,13 +29,15 @@ prowlarr | sonarr | media | 5003 | 60000
 #### Nginx Reverse-Proxy
 
 - Change the Url Base in "Settings->General" to /radarr /sonarr /prowlarr in the corresponding app and the following endpoints will work:
-   * http://IPAddr/sonarr
-   * http://IPAddr/radarr
-   * http://IPAddr/prowlarr
+   * http://ipaddr        // Deluge
+   * http://ipaddr/sonarr
+   * http://ipaddr/radarr
+   * http://ipaddr/prowlarr
 
 #### ServiceName:Port
 
-- deluged:80 or 8112
+- deluged:8112
 - radarr:7878
 - sonarr:8989
 - prowlarr:9696
+- overseerr:5055

@@ -50,6 +50,13 @@ services:
     ports:
       - 9696:9696
 
+  overseerr:
+    image: linuxserver/overseerr
+    volumes:
+      - overseerr_configs:/config
+    ports:
+      - 5055:5055
+
   nginx:
     build: 
       context: .
@@ -62,4 +69,5 @@ volumes:
   radarr_configs:
   prowlarr_configs:
   sonarr_configs:
+  overseerr_configs:
   data:
