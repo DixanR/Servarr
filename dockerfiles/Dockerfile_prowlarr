@@ -10,15 +10,15 @@ FROM debian:bookworm-slim
 
 ARG user=prowlarr
 ARG group=media
-ARG uid=5003
-ARG gid=60000
+ARG uid=1003
+ARG gid=50000
 ARG shell=/bin/bash
 
 RUN apt-get update && apt-get install curl sqlite3 libicu72 -y
 
 RUN groupadd ${group} -g ${gid} && \ 
     useradd ${user} -m -u ${uid} -g ${group} -s ${shell} && \
-    su -l ${user} -c 'echo "umask 002" >> ~/.bashrc' && \
+    su -l ${user} -c 'echo "umask 0002" >> ~/.bashrc' && \
     mkdir /opt/${user}
 
 USER ${user}
