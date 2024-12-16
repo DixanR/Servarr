@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install curl sqlite3 libicu72 -y
 
 RUN groupadd ${group} -g ${gid} && \
     useradd ${user} -m -u ${uid} -g ${group} -s ${shell} && \
-    su -l ${user} -c 'echo "umask 0002" >> ~/.bashrc' && \
+    su -l ${user} -c 'echo "umask 002" >> ~/.bashrc' && \
     mkdir /opt/${user}
 
 USER ${user}
