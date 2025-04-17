@@ -1,11 +1,3 @@
-FROM debian:bookworm-slim as BUILD_IMAGE
-
-WORKDIR /app
-
-RUN apt-get update && apt-get install wget -y
-
-RUN wget -q --content-disposition 'http://prowlarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64' && tar -xzf Prowlarr*.linux*.tar.gz --strip-components=1
-
 FROM debian:bookworm-slim
 
 ARG user=prowlarr
@@ -14,17 +6,15 @@ ARG uid=1003
 ARG gid=50000
 ARG shell=/bin/bash
 
-RUN apt-get update && apt-get install curl sqlite3 libicu72 -y
+RUN apt-get update && apt-get install sqlite3 libicu72 wget -y
 
-RUN groupadd ${group} -g ${gid} && \ 
-    useradd ${user} -m -u ${uid} -g ${group} -s ${shell} && \
-    mkdir /opt/${user}
+RUN groupadd ${group} -g ${gid} && useradd -m ${user} -u ${uid} -g ${group} -s ${shell}
 
 USER ${user}
 
-WORKDIR /opt/${user}
+WORKDIR /home/${user}
 
-COPY --from=BUILD_IMAGE /app ./
+RUN wget -q --content-disposition 'http://prowlarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64' && tar -xzf Prowlarr*.linux*.tar.gz --strip-components=1
 
 ENTRYPOINT ["./Prowlarr"]
 
