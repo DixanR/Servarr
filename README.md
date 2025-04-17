@@ -43,8 +43,3 @@ prowlarr | sonarr | media | 1003 | 50000
 - sonarr:8989
 - prowlarr:9696
 - overseerr:5055
-
-### Issues
-
-- Hardlinks - Sonarr and Radarr copy instead of Hardlinking the content to the download client path - WorkAround - Add /usr/bin/adjust_rights.sh to Deluge execute plugin on Torrent Complete.
-
