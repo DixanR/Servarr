@@ -2,7 +2,7 @@
 
 #### EDIT
 
-- Set data volume as nfs or bind mount in compose.yml
+- Set data volume as nfs or bind mount in docker-compose.yml
 
 #### Users
 
