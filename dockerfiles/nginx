@@ -1,6 +1,6 @@
-FROM alpine:latest
+FROM base_image
 
-RUN apk update && apk add nginx
+RUN apt update && apt-get install nginx -y
 
 WORKDIR /etc/nginx
 

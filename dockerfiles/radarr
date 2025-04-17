@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim
+FROM base_image
 
 ARG user=radarr
 ARG group=media
@@ -7,8 +7,6 @@ ARG gid=50000
 ARG shell=/bin/bash
 
 RUN groupadd ${group} -g ${gid} && useradd -m ${user} -u ${uid} -g ${group} -s ${shell} && su -l ${user} -c 'echo "umask 002" >> ~/.bashrc'
-
-RUN apt-get update && apt-get install wget sqlite3 libicu72 -y
 
 USER ${user}
 

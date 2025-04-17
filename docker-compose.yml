@@ -1,29 +1,24 @@
 services:
 
-  deluged:
+  base_image:
     build:
       context: .
-      dockerfile: dockerfiles/deluged
-    container_name: deluged
-    volumes:
-      - /mnt/torrents:/mnt/torrents
-      - /var/lib/deluged:/var/lib/deluged
-    ports:
-      - 8112:8112
-      - 6882:6882
+      dockerfile: dockerfiles/base_image
+    image: base_image
+    container_name: base_image
 
   radarr:
     build:
       context: .
       dockerfile: dockerfiles/radarr
     container_name: radarr
-    environment:
-      - UMASK=002
     volumes:
       - /mnt/torrents:/mnt/torrents
       - /var/lib/radarr:/var/lib/radarr
     ports:
       - 7878:7878
+    depends_on:
+      - base_image
     restart: unless-stopped
 
   sonarr:
@@ -31,13 +26,13 @@ services:
       context: .
       dockerfile: dockerfiles/sonarr
     container_name: sonarr
-    environment:
-      - UMASK=002
     volumes:
       - /mnt/torrents:/mnt/torrents
       - /var/lib/sonarr:/var/lib/sonarr
     ports:
       - 8989:8989
+    depends_on:
+      - base_image
     restart: unless-stopped
 
   prowlarr:
@@ -49,20 +44,38 @@ services:
       - /var/lib/prowlarr:/var/lib/prowlarr
     ports:
       - 9696:9696
+    depends_on:
+      - base_image
     restart: unless-stopped
 
   overseerr:
     image: linuxserver/overseerr
     container_name: overseerr
-    environment:
-      - LOG_LEVEL=debug
-      - TZ=Europe/Madrid
-      - PORT=5055
     ports:
       - 5055:5055
     volumes:
       - /var/lib/Overseerr:/config
     restart: unless-stopped
+
+  deluged:
+    build:
+      context: .
+      dockerfile: dockerfiles/deluged
+    container_name: deluged
+    volumes:
+      - /mnt/torrents:/mnt/torrents
+      - /var/lib/deluged:/var/lib/deluged
+    ports:
+      - 8112:8112
+      - 6882:6882
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:8112"]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+      start_period: 5s
+    depends_on:
+      - base_image
 
   nginx:
     build:
@@ -71,4 +84,9 @@ services:
     container_name: nginx
     ports:
       - 80:80
-
+    depends_on:
+      - base_image
+    depends_on:
+      deluged:
+        condition: service_healthy
+    restart: unless-stopped
