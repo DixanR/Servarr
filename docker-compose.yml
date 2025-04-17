@@ -3,7 +3,7 @@ services:
   deluged:
     build:
       context: .
-      dockerfile: dockerfiles/Dockerfile_deluged
+      dockerfile: dockerfiles/deluged
     container_name: deluged
     volumes:
       - /mnt/torrents:/mnt/torrents
@@ -15,7 +15,7 @@ services:
   radarr:
     build:
       context: .
-      dockerfile: dockerfiles/Dockerfile_radarr
+      dockerfile: dockerfiles/radarr
     container_name: radarr
     environment:
       - UMASK=002
@@ -29,7 +29,7 @@ services:
   sonarr:
     build:
       context: .
-      dockerfile: dockerfiles/Dockerfile_sonarr
+      dockerfile: dockerfiles/sonarr
     container_name: sonarr
     environment:
       - UMASK=002
@@ -43,7 +43,7 @@ services:
   prowlarr:
     build:
       context: .
-      dockerfile: dockerfiles/Dockerfile_prowlarr
+      dockerfile: dockerfiles/prowlarr
     container_name: prowlarr
     volumes:
       - /var/lib/prowlarr:/var/lib/prowlarr
@@ -67,7 +67,7 @@ services:
   nginx:
     build:
       context: .
-      dockerfile: dockerfiles/Dockerfile_nginx
+      dockerfile: dockerfiles/nginx
     container_name: nginx
     ports:
       - 80:80
