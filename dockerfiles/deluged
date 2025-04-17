@@ -6,7 +6,7 @@ ARG uid=1005
 ARG gid=50000
 ARG shell=/bin/bash
 
-RUN apt-get update && apt-get install deluged deluge-web supervisor curl -y 
+RUN apt-get update && apt-get install deluged deluge-web supervisor netcat-traditional -y 
 
 COPY ./supervisord/${user}.conf /etc/supervisor/conf.d/
 
