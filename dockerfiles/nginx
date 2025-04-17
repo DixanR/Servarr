@@ -6,7 +6,7 @@ WORKDIR /etc/nginx
 
 COPY ./nginx/proxy_params .
 
-COPY ./nginx/default ./http.d/default.conf
+COPY ./nginx/default ./sites-enabled/default
 
 ENTRYPOINT ["nginx"]
 
