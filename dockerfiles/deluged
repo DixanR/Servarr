@@ -10,13 +10,8 @@ RUN apt-get update && apt-get install deluged deluge-web supervisor netcat-tradi
 
 COPY ./supervisord/${user}.conf /etc/supervisor/conf.d/
 
-COPY ./adjust_rights.sh /usr/bin/
-
 RUN groupadd ${group} -g ${gid} && \
     useradd ${user} -m -u ${uid} -g ${group} -s ${shell} && \
-    su -l ${user} -c 'echo "umask 002" >> ~/.bashrc' && \
-    chmod u+x /usr/bin/adjust_rights.sh && \
-    chown ${user}:${group} /usr/bin/adjust_rights.sh && \
     chown 775 /var/lib/${user} -R && \
     chown ${user}:${group} /var/lib/${user} -R 
 
