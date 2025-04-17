@@ -1,10 +1,10 @@
 FROM base_image
 
-ARG user=prowlarr
-ARG group=media
-ARG uid=1003
-ARG gid=50000
-ARG shell=/bin/bash
+ARG user
+ARG group
+ARG uid
+ARG gid
+ARG shell
 
 RUN groupadd ${group} -g ${gid} && useradd -m ${user} -u ${uid} -g ${group} -s ${shell}
 
@@ -13,6 +13,7 @@ USER ${user}
 WORKDIR /home/${user}
 
 RUN wget -q --content-disposition 'http://prowlarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64' && tar -xzf Prowlarr*.linux*.tar.gz --strip-components=1
+
 
 ENTRYPOINT ["./Prowlarr"]
 

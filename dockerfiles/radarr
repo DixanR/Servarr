@@ -1,10 +1,10 @@
 FROM base_image
 
-ARG user=radarr
-ARG group=media
-ARG uid=1000
-ARG gid=50000
-ARG shell=/bin/bash
+ARG user
+ARG group
+ARG uid
+ARG gid
+ARG shell
 
 RUN groupadd ${group} -g ${gid} && useradd -m ${user} -u ${uid} -g ${group} -s ${shell} && su -l ${user} -c 'echo "umask 002" >> ~/.bashrc'
 
