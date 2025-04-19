@@ -4,24 +4,22 @@ server {
 
         server_name _;
 
+	include proxy_params;
+
         location / {
                 proxy_pass http://deluged:8112;
-                include proxy_params;
         }
 
         location /radarr {
                 proxy_pass http://radarr:7878;
-                include proxy_params;
         }
 
         location /sonarr {
                 proxy_pass http://sonarr:8989;
-                include proxy_params;
         }
 
         location /prowlarr {
                 proxy_pass http://prowlarr:9696;
-                include proxy_params;
         }
 
         location ^~ /overseerr {
@@ -53,8 +51,6 @@ server {
                 sub_filter '/favicon' '/$app/favicon';
                 sub_filter '/logo_' '/$app/logo_';
                 sub_filter '/site.webmanifest' '/$app/site.webmanifest';
-
-                include proxy_params;
         }
 }
 
