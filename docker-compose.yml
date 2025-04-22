@@ -17,13 +17,12 @@ services:
         uid: 1000
         gid: 50000
         shell: /bin/bash
-
     container_name: radarr
-    volumes:
-      - /mnt/torrents:/mnt/torrents
-      - /var/lib/radarr:/var/lib/radarr
     ports:
       - 7878:7878
+    volumes:
+      - radarr_config:/var/lib/radarr
+      - /mnt/torrents:/mnt/torrents
     depends_on:
       - base_image
     restart: unless-stopped
@@ -41,7 +40,7 @@ services:
     container_name: sonarr
     volumes:
       - /mnt/torrents:/mnt/torrents
-      - /var/lib/sonarr:/var/lib/sonarr
+      - sonarr_configs:/var/lib/sonarr
     ports:
       - 8989:8989
     depends_on:
@@ -60,7 +59,7 @@ services:
         shell: /bin/bash
     container_name: prowlarr
     volumes:
-      - /var/lib/prowlarr:/var/lib/prowlarr
+      - prowlarr_configs:/var/lib/prowlarr
     ports:
       - 9696:9696
 
@@ -74,7 +73,7 @@ services:
     ports:
       - 5055:5055
     volumes:
-      - /var/lib/Overseerr:/config
+      - overseerr_configs:/config
     restart: unless-stopped
 
   deluged:
@@ -90,7 +89,7 @@ services:
     container_name: deluged
     volumes:
       - /mnt/torrents:/mnt/torrents
-      - /var/lib/deluged:/var/lib/deluged
+      - deluged_configs:/var/lib/deluged
     ports:
       - 8112:8112
       - 6882:6882
@@ -116,3 +115,10 @@ services:
       deluged:
         condition: service_healthy
     restart: unless-stopped
+
+volumes:
+  radarr_config:
+  sonarr_configs:
+  prowlarr_configs:
+  overseerr_configs:
+  deluged_configs:
