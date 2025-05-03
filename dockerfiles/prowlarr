@@ -6,14 +6,13 @@ ARG uid
 ARG gid
 ARG shell
 
-RUN groupadd ${group} -g ${gid} && useradd -m ${user} -u ${uid} -g ${group} -s ${shell}
+RUN groupadd ${group} -g ${gid} && useradd -m ${user} -u ${uid} -g ${group} -s ${shell} && mkdir /var/lib/${user} && chown ${user}:${group} /var/lib/${user} -R
 
 USER ${user}
 
 WORKDIR /home/${user}
 
 RUN wget -q --content-disposition 'http://prowlarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64' && tar -xzf Prowlarr*.linux*.tar.gz --strip-components=1
-
 
 ENTRYPOINT ["./Prowlarr"]
 
