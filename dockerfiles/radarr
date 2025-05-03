@@ -6,7 +6,7 @@ ARG uid
 ARG gid
 ARG shell
 
-RUN groupadd ${group} -g ${gid} && useradd -m ${user} -u ${uid} -g ${group} -s ${shell} && su -l ${user} -c 'echo "umask 002" >> ~/.bashrc'
+RUN groupadd ${group} -g ${gid} && useradd -m ${user} -u ${uid} -g ${group} -s ${shell} && su -l ${user} -c 'echo "umask 002" >> ~/.bashrc' && mkdir /var/lib/${user} && chown ${user}:${group} /var/lib/${user} -R
 
 USER ${user}
 
