@@ -21,7 +21,7 @@ services:
     ports:
       - 7878:7878
     volumes:
-      - radarr_config:/var/lib/radarr
+      - radarr_configs:/var/lib/radarr
       - /mnt/torrents:/mnt/torrents
     depends_on:
       - base_image
@@ -117,7 +117,7 @@ services:
     restart: unless-stopped
 
 volumes:
-  radarr_config:
+  radarr_configs:
   sonarr_configs:
   prowlarr_configs:
   overseerr_configs:

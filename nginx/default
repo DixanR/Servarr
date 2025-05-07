@@ -4,7 +4,7 @@ server {
 
         server_name _;
 
-	include proxy_params;
+      	include proxy_params;
 
         location / {
                 proxy_pass http://deluged:8112;
@@ -53,4 +53,3 @@ server {
                 sub_filter '/site.webmanifest' '/$app/site.webmanifest';
         }
 }
-
